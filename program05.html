@@ -9,7 +9,10 @@
 <button type="button" onclick="loadDoc();">Change Content</button>
 <button type="button" onclick="showByRoom(obj);">Change Content2</button>
 
+
 <script>
+var obj
+var newArray = []
 rt = " ";
 function loadDoc() {
   var xhttp = new XMLHttpRequest();
@@ -23,25 +26,37 @@ function loadDoc() {
   xhttp.open("GET", "https://api.svsu.edu/courses?prefix=CIS&courseNumber=255", true);
   xhttp.send();
 }
+
 function showDoc(obj){
   xx = "";
     for(var i =0; i < obj.courses.length ; i++) 
         xx = xx + obj.courses[i].prefix + " " 
-	         + obj.courses[i].courseNumber + " " 
-			 + obj.courses[i].meetingTimes[0].building + " " 
-			 + obj.courses[i].meetingTimes[0].room +" <br>";
+                + obj.courses[i].courseNumber + " " 
+                + obj.courses[i].meetingTimes[0].building + " " 
+                + obj.courses[i].meetingTimes[0].room +" <br>";
     document.getElementById("demo").innerHTML = xx;
 }
-function showByRoom(obj){
-    obj.courses.sort();
-    xx = "";
-    for(var i =0; i < obj.courses.length ; i++) 
-    xx = xx + obj.courses[i].prefix + " " 
-	         + obj.courses[i].courseNumber + " " 
-			 + obj.courses[i].meetingTimes[0].building + " " 
-			 + obj.courses[i].meetingTimes[0].room +" <br>";
-    document.getElementById("demo").innerHTML = xx;
+
+function sortByRoom(obj){
+    newArray = []
+    for(var i =0; i < obj.courses.length ; i++){
+        newArray.push(obj.courses[i].prefix + " " + obj.courses[i].courseNumber + " " + obj.courses[i].meetingTimes[0].building + " " + obj.courses[i].meetingTimes[0].room)
+        // document.write(newArray[i] + "<br />")
+    }
+    // document.write(newArray.length + "<br />")
+    newArray.sort()
+    return newArray
+
+
 }
+
+function showByRoom(){
+    sortByRoom(obj)
+    for(var i =0; i < newArray.length ; i++){
+        document.write(newArray[i] + "<br />")
+    }
+}
+
 </script>
 
 </body>
